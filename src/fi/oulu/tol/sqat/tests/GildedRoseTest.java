@@ -15,6 +15,6 @@ public class GildedRoseTest {
 	@Test
 	public void testGildedRose_test1() {
 		GildedRose gildedrose = new GildedRose();
-		gildedrose.main(null);	
+		gildedrose.main(null);
 	}
 }
