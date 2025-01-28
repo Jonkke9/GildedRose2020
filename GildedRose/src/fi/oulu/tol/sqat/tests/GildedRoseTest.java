@@ -106,6 +106,13 @@ public class GildedRoseTest {
 		assertEquals(80, sulfuras1.getQuality());
 		assertEquals(80, sulfuras2.getQuality());
 	}
+	@Test
+	public void testSulfurasSelinCantChange() {
+		final Item item = new Item("Sulfuras, Hand of Ragnaros", 10, 80);
+		inn.setItem(item);
+		inn.oneDay();
+		assertEquals(10, item.getSellIn());
+	}
 
 	@Test
 	public void testAgedBrieQualityIncreaseBy1() {
@@ -127,6 +134,49 @@ public class GildedRoseTest {
 	public void testSetGetItems() {
 		final Item item = new Item("Aged Brie", 0, 0);
 		inn.setItem(item);
-		assertEquals(true, item == inn.getItems().get(0));
+		assertEquals("Aged Brie", inn.getItems().get(0).getName());
+		assertEquals(0, inn.getItems().get(0).getSellIn());
+		assertEquals(0, inn.getItems().get(0).getQuality());
+		assertTrue(item == inn.getItems().get(0));
+	}
+
+	@Test
+	public void testMainMethod() {
+		final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		final PrintStream originalOut = System.out;
+
+		System.setOut(new PrintStream(outContent));
+
+		GildedRose.main(new String[]{});
+
+		assertEquals("OMGHAI!\n", outContent.toString());
+
+		System.setOut(originalOut);
+
+		final List<Item> items = inn.getItems();
+
+		assertEquals("+5 Dexterity Vest", items.get(0).getName());
+		assertEquals(9, items.get(0).getSellIn());
+		assertEquals(19, items.get(0).getQuality());
+
+		assertEquals("Aged Brie", items.get(1).getName());
+		assertEquals(1, items.get(1).getSellIn());
+		assertEquals(1, items.get(1).getQuality());
+
+		assertEquals("Elixir of the Mongoose", items.get(2).getName());
+		assertEquals(4, items.get(2).getSellIn());
+		assertEquals(6, items.get(2).getQuality());
+
+		assertEquals("Sulfuras, Hand of Ragnaros", items.get(3).getName());
+		assertEquals(0, items.get(3).getSellIn());
+		assertEquals(80, items.get(3).getQuality());
+
+		assertEquals("Backstage passes to a TAFKAL80ETC concert", items.get(4).getName());
+		assertEquals(14, items.get(4).getSellIn());
+		assertEquals(21, items.get(4).getQuality());
+
+		assertEquals("Conjured Mana Cake", items.get(5).getName());
+		assertEquals(2, items.get(5).getSellIn());
+		assertEquals(5, items.get(5).getQuality());
 	}
 }
